@@ -1,0 +1,75 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | CampusPulse AI</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-page">
+
+  <div class="login-background"></div>
+
+  <main class="login-layout">
+    <section class="login-intro">
+      <div class="login-brand">✦ CampusPulse <span>AI</span></div>
+      <p class="login-tag">STUDENT SUCCESS INTELLIGENCE</p>
+      <h1>Turn your potential into <span>progress.</span></h1>
+      <p class="login-description">
+        Understand student performance, discover risks early,
+        and make smarter academic decisions.
+      </p>
+
+      <div class="login-feature">
+        <span>📊</span>
+        <div><strong>Smart Analytics</strong><small>Insights that lead to action</small></div>
+      </div>
+      <div class="login-feature">
+        <span>🎯</span>
+        <div><strong>Personalized Planning</strong><small>Stay focused on your goals</small></div>
+      </div>
+      <div class="login-feature">
+        <span>🤖</span>
+        <div><strong>AI Study Assistant</strong><small>Get guidance when you need it</small></div>
+      </div>
+    </section>
+
+    <section class="login-card">
+      <div class="login-card-icon">✦</div>
+      <h2 style="color: #f1f5f9;">Welcome back</h2>
+      <p class="login-subtitle">Sign in to your CampusPulse workspace</p>
+
+      <form id="login-form">
+  <label for="login-email" style="color: #f1f5f9;">Email address</label>
+  <input
+    id="login-email"
+    type="email"
+    placeholder="you@example.com"
+    required
+    autocomplete="username"
+  >
+
+  <label for="login-password" style="color: #f1f5f9;">Password</label>
+  <div class="password-field">
+    <input
+      id="login-password"
+      type="password"
+      placeholder="Enter your password"
+      required
+      autocomplete="current-password"
+    >
+    <button type="button" id="toggle-password" class="show-password">
+      Show
+    </button>
+  </div>
+
+  <p id="login-message" class="login-message" role="alert"></p>
+  <button type="submit" class="login-submit">
+    login
+</button>
+</form>
+  </main>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

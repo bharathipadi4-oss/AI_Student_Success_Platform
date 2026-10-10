@@ -1,0 +1,621 @@
+/* ==========================================================================
+   Campus Pulse AI - Custom Styles & Design System
+   Main USP: "We don't just show student data; we turn it into actionable decisions that improve student success."
+   ========================================================================== */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #60a5fa;
+  --secondary: #0f172a;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --border: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+/* Base Tweaks */
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: #f1f5f9;
+  overflow-x: hidden;
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+/* Glassmorphism Accents */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+.glass-nav {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+/* Animated Pulse Badges */
+.pulse-indicator {
+  position: relative;
+  display: inline-flex;
+}
+.pulse-indicator::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  border-radius: 9999px;
+  background-color: inherit;
+  opacity: 0.75;
+  animation: pulse-ring 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+@keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 0.2; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+/* Card Hover Lift */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+/* Action Center Glowing Glow */
+.action-glow {
+  box-shadow: 0 0 20px -3px rgba(37, 99, 235, 0.25);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+.at-risk-glow {
+  box-shadow: 0 0 20px -3px rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+/* Section Transitions */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+.tab-content.active {
+  display: block;
+  opacity: 1;
+}
+/* Circular Timer Progress for Pomodoro */
+.timer-circle-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.timer-svg {
+  transform: rotate(-90deg);
+}
+.timer-bg-circle {
+  stroke: #e2e8f0;
+  stroke-width: 10;
+  fill: transparent;
+}
+.timer-progress-circle {
+  stroke: var(--primary);
+  stroke-width: 10;
+  stroke-linecap: round;
+  fill: transparent;
+  stroke-dasharray: 565.48;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+}
+/* Resume Preview Styling */
+.resume-preview-container {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: white;
+  min-height: 840px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+/* Template 1: Modern Tech */
+.resume-theme-modern {
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+}
+.resume-theme-modern .resume-header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  padding: 2.25rem;
+}
+.resume-theme-modern .section-title {
+  color: #1e3a8a;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 0.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+/* Template 2: Executive Clean */
+.resume-theme-executive {
+  font-family: 'Georgia', serif;
+  color: #18181b;
+}
+.resume-theme-executive .resume-header {
+  border-bottom: 2px solid #27272a;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.resume-theme-executive .section-title {
+  color: #27272a;
+  font-family: 'Inter', sans-serif;
+  border-bottom: 1px solid #71717a;
+  padding-bottom: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+/* Template 3: Creative Minimalist */
+.resume-theme-creative {
+  font-family: 'Inter', sans-serif;
+  color: #334155;
+  display: flex;
+}
+.resume-theme-creative .resume-sidebar {
+  width: 32%;
+  background-color: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  padding: 2rem 1.5rem;
+}
+.resume-theme-creative .resume-main {
+  width: 68%;
+  padding: 2rem;
+}
+.resume-theme-creative .section-title {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Template 4: Classic Academic */
+.resume-theme-academic {
+  font-family: 'Times New Roman', Times, serif;
+  color: #111827;
+  padding: 2.5rem;
+}
+.resume-theme-academic .resume-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.resume-theme-academic .section-title {
+  font-size: 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #000;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+/* Print Rules for High-Fidelity Resume & Timetable Printing */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area, .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+/* Audio wave animation for Mock Interview Voice Recording */
+.audio-wave {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+}
+.wave-bar {
+  width: 4px;
+  height: 100%;
+  background-color: #ef4444;
+  border-radius: 2px;
+  animation: sound-wave 1.2s ease-in-out infinite alternate;
+}
+.wave-bar:nth-child(2) { animation-delay: 0.2s; height: 60%; }
+.wave-bar:nth-child(3) { animation-delay: 0.4s; height: 80%; }
+.wave-bar:nth-child(4) { animation-delay: 0.1s; height: 40%; }
+.wave-bar:nth-child(5) { animation-delay: 0.3s; height: 100%; }
+@keyframes sound-wave {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+/* Toast Notification Styles */
+#toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  transform: translateX(100%);
+  opacity: 0;
+}
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+/* Modals */
+.modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+}
+/* ===== CampusPulse AI Login Page ===== */
+.login-page {
+  min-height: 100vh;
+  margin: 0;
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  color: #17243b;
+  background: #f3f6ff;
+  overflow-x: hidden;
+}
+
+.login-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 20%, #cbd7ff 0, transparent 35%),
+    radial-gradient(circle at 85% 80%, #d8d1ff 0, transparent 30%),
+    linear-gradient(135deg, #f5f7ff, #eaf0ff);
+}
+
+.login-layout {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 92%);
+  min-height: 100vh;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 65px;
+  align-items: center;
+  padding: 45px 0;
+}
+
+.login-brand {
+  font-size: 23px;
+  font-weight: 900;
+  color: #243d86;
+  margin-bottom: 65px;
+}
+
+.login-brand span {
+  color: #7561e8;
+}
+
+.login-tag {
+  color: #5269d9;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.login-intro h1 {
+  max-width: 570px;
+  font-size: clamp(38px, 5vw, 61px);
+  line-height: 1.12;
+  letter-spacing: -2px;
+  margin: 18px 0;
+}
+
+.login-intro h1 span {
+  color: #5866df;
+}
+
+.login-description {
+  max-width: 480px;
+  color: #68758c;
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.login-feature {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 18px 0;
+}
+
+.login-feature > span {
+  display: grid;
+  place-items: center;
+  width: 47px;
+  height: 47px;
+  background: white;
+  border: 1px solid #e5e9ff;
+  border-radius: 14px;
+  font-size: 21px;
+  box-shadow: 0 8px 22px #273d7510;
+}
+
+.login-feature strong,
+.login-feature small {
+  display: block;
+}
+
+.login-feature strong {
+  font-size: 14px;
+}
+
+.login-feature small {
+  margin-top: 4px;
+  color: #77839a;
+  font-size: 12px;
+}
+
+.login-card {
+  padding: 37px;
+  border: 1px solid #ffffff;
+  border-radius: 25px;
+  background: rgb(255 255 255 / 92%);
+  box-shadow: 0 25px 80px #293b751c;
+  backdrop-filter: blur(18px);
+}
+
+.login-card-icon {
+  display: grid;
+  place-items: center;
+  width: 49px;
+  height: 49px;
+  color: white;
+  font-size: 23px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #5274f4, #8261e8);
+  box-shadow: 0 8px 20px #6575e344;
+}
+
+.login-card h2 {
+  margin: 23px 0 8px;
+  font-size: 28px;
+  letter-spacing: -0.7px;
+}
+
+.login-subtitle {
+  color: #7b879b;
+  font-size: 13px;
+  margin-bottom: 27px;
+}
+
+.login-card label {
+  display: block;
+  margin: 17px 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.login-card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #dfe5f1;
+  border-radius: 11px;
+  background: #fbfcff;
+  font-size: 14px;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #6678eb;
+  box-shadow: 0 0 0 3px #6678eb1c;
+}
+
+.password-field {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 65px;
+}
+
+.show-password {
+  position: absolute;
+  right: 8px;
+  padding: 7px;
+  color: #5368df;
+  background: transparent;
+  font-size: 11px;
+}
+
+.login-submit {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  border-radius: 11px;
+  color: white;
+  background: linear-gradient(100deg, #4669e9, #795de5);
+  font-weight: 800;
+  box-shadow: 0 9px 20px #5b69df35;
+  cursor: pointer;
+}
+
+.login-submit:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.login-message {
+  min-height: 16px;
+  color: #c0394b;
+  font-size: 12px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0 15px;
+  color: #98a1b2;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #5376bb;
+}
+
+.login-footer {
+  color: #929bad;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+@media (max-width: 850px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    gap: 25px;
+  }
+
+  .login-brand {
+    margin-bottom: 28px;
+  }
+
+  .login-intro h1 {
+    font-size: 39px;
+  }
+
+  .login-feature {
+    display: none;
+  }
+
+  .login-card {
+    padding: 27px;
+  }
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar .login-btn {
+  margin-left: auto;
+}
+
+/* Glowing Login Card */
+.login-card {
+  position: relative;
+  background: #0f172a;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  isolation: isolate;
+  box-shadow:
+    0 0 10px rgba(59, 130, 246, 0.35),
+    0 0 25px rgba(139, 92, 246, 0.2);
+}
+
+/* Animated glowing border */
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: linear-gradient(
+    135deg,
+    #00d4ff,
+    #6366f1,
+    #c084fc,
+    #00d4ff
+  );
+  background-size: 300% 300%;
+  animation: borderGlow 4s ease infinite;
+  z-index: -1;
+}
+
+/* Inner card background */
+.login-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 18px;
+  background: #0f172a;
+  z-index: -1;
+}
+
+@keyframes borderGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Extra glow on hover */
+.login-card:hover {
+  box-shadow:
+    0 0 15px rgba(0, 212, 255, 0.45),
+    0 0 35px rgba(139, 92, 246, 0.4);
+  transition: box-shadow 0.3s ease;
+}

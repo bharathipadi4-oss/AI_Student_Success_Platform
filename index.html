@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Pulse AI - Actionable Student Success Platform</title>
+  
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js 4 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+   <body class="bg-slate-100 min-h-screen flex flex-col text-slate-800 antialiased">
+    
+<div id="login-page" class="hidden min-h-screen flex items-center justify-center bg-slate-900 p-6">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-2">Campus Pulse AI</h1>
+    <p class="text-center text-slate-500 mb-6">Login to continue</p>
+
+    <form onsubmit="event.preventDefault(); campusPulseLogin();">
+      <label class="block mb-2">Email</label>
+      <input id="login-email" type="email" required
+        class="w-full border rounded-lg p-3 mb-4"
+        placeholder="Enter your email">
+
+      <label class="block mb-2">Password</label>
+      <input id="login-password" type="password" required
+        class="w-full border rounded-lg p-3 mb-5"
+        placeholder="Enter your password">
+
+      <button type="submit"
+        class="w-full bg-blue-600 text-white rounded-lg p-3 font-semibold">
+        Login
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="main-website" class="hidden">
+  <!-- Move your EXISTING main website content here -->
+</div>
+   <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION BAR                                                        -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-800 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+     <!-- Brand Logo & Tagline -->
+<div class="flex items-center gap-3">
+  <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md text-white font-black text-lg">
+    <i class="fa-solid fa-chart-line"></i>
+  </div>
+
+  <div>
+    <span class="font-extrabold text-lg text-white">Campus Pulse AI</span>
+    <p class="text-[11px] text-slate-400 hidden sm:block truncate max-w-md">
+      We don't just show student data; we turn it into actionable decisions.
+    </p>
+  </div>
+</div>
+
+<!-- Navigation Tabs (Desktop) -->
+      <nav class="hidden lg:flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-800/80 text-xs font-semibold">
+        <button data-tab="analytics" class="nav-tab-btn px-3 py-1.5 rounded-lg bg-blue-600 text-white flex items-center gap-2 transition">
+          <i class="fa-solid fa-chart-pie"></i> Student Analytics
+        </button>
+        <button data-tab="timetable" class="nav-tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition">
+          <i class="fa-regular fa-calendar-days"></i> Exam Timetable
+        </button>
+        <button data-tab="planner" class="nav-tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition">
+          <i class="fa-solid fa-brain"></i> Smart Planner
+        </button>
+         <button data-tab="resume" class="nav-tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition">
+          <i class="fa-solid fa-file-invoice"></i> AI Resume Builder
+        </button>
+        <button data-tab="interview" class="nav-tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition">
+          <i class="fa-solid fa-comments"></i> AI Mock Interview
+        </button>
+        <button data-tab="alerts" class="nav-tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition">
+          <i class="fa-regular fa-bell"></i> Alert Hub
+        </button>
+      </nav>
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div id="user-profile" class="hidden relative items-center"> 
+  <button id="profile-toggle" type="button" 
+    class="flex items-center gap-2 rounded-xl p-2 hover:bg-slate-800"> 
+    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white"> 
+      <span id="profile-initial">U</span> 
+    </div> 
+    <div class="hidden sm:block text-left"> 
+      <p id="profile-name" class="text-sm font-semibold text-white">Student</p> 
+      <p id="profile-email" class="text-xs text-slate-400"></p> 
+    </div> 
+    <span class="text-slate-400">⌄</span> 
+  </button> 
+ 
+  <div id="profile-menu" 
+    class="hidden absolute right-0 top-full mt-2 w-64 rounded-xl border border-slate-700 bg-slate-900 shadow-xl z-50"> 
+    <div class="border-b border-slate-700 p-4"> 
+      <p id="menu-profile-name" class="font-semibold text-white">Student</p> 
+      <p id="menu-profile-email" class="break-all text-sm text-slate-400"></p> 
+    </div> 
+ 
+    <div class="p-2"> 
+      <button id="view-profile-btn" type="button" 
+        class="w-full rounded-lg px-3 py-2 text-left text-white hover:bg-slate-800"> 
+        👤 My Profile 
+      </button> 
+     <button id="logout-button" type="button"
+  onclick="campusPulseLogout()"
+  class="w-full rounded-lg px-3 py-2 text-left text-red-400 hover:bg-slate-800">
+  ↪ Logout
+</button>
+    </div> 
+  </div> 
+</div> 
+
+<a id="login-button" href="login.html"
+   class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+  Login
+</a> 
+        <!-- Notification Drawer Bell -->
+        <div class="relative">
+          <button id="nav-btn-alerts" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition relative">
+            <i class="fa-regular fa-bell text-base"></i>
+            <span id="nav-alert-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-slate-900 animate-pulse">4</span>
+          </button>
+          <!-- Dropdown Notification Drawer -->
+          <div id="alert-drawer" class="hidden absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 z-50 overflow-hidden text-slate-800">
+            <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-sm">Notifications & Reminders</h4>
+                <p class="text-[11px] text-slate-400">Campus alerts & probation triggers</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="alert-btn-mark-all" class="text-xs text-blue-400 hover:text-blue-300">Mark all read</button>
+                <button id="alert-drawer-close" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+                              </div>
+            </div>
+            <div id="alert-drawer-list" class="max-h-80 overflow-y-auto divide-y divide-slate-100">
+              <!-- Dynamically populated by alerts.js -->
+            </div>
+            <div class="p-3 bg-slate-50 text-center border-t border-slate-100">
+              <button onclick="window.switchTab('alerts'); document.getElementById('alert-drawer').classList.add('hidden')" class="text-xs font-semibold text-blue-600 hover:underline">
+                View All Campus Notifications &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile Menu Toggle Button -->
+        <button id="btn-mobile-menu" class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-sidebar" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm lg:hidden">
+    <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-slate-900 p-6 shadow-2xl flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-slate-800">
+          <span class="font-black text-white text-lg">Campus Pulse AI</span>
+          <button id="btn-mobile-close" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="mt-6 flex flex-col gap-2 font-semibold text-sm">
+          <button onclick="window.switchTab('analytics')" class="w-full text-left py-2.5 px-3 rounded-xl bg-blue-600 text-white flex items-center gap-3">
+            <i class="fa-solid fa-chart-pie"></i> Student Analytics
+          </button>
+          <button onclick="window.switchTab('timetable')" class="w-full text-left py-2.5 px-3 rounded-xl text-slate-300 hover:bg-slate-800 flex items-center gap-3">
+            <i class="fa-regular fa-calendar-days"></i> Exam Timetable
+          </button>
+          <button onclick="window.switchTab('planner')" class="w-full text-left py-2.5 px-3 rounded-xl text-slate-300 hover:bg-slate-800 flex items-center gap-3">
+            <i class="fa-solid fa-brain"></i> Smart Planner
+          </button>
+          <button onclick="window.switchTab('resume')" class="w-full text-left py-2.5 px-3 rounded-xl text-slate-300 hover:bg-slate-800 flex items-center gap-3">
+            <i class="fa-solid fa-file-invoice"></i> AI Resume Builder
+          </button>
+          <button onclick="window.switchTab('interview')" class="w-full text-left py-2.5 px-3 rounded-xl text-slate-300 hover:bg-slate-800 flex items-center gap-3">
+            <i class="fa-solid fa-comments"></i> AI Mock Interview
+          </button>
+          <button onclick="window.switchTab('alerts')" class="w-full text-left py-2.5 px-3 rounded-xl text-slate-300 hover:bg-slate-800 flex items-center gap-3">
+            <i class="fa-regular fa-bell"></i> Alert Hub
+          </button>
+        </div>
+      </div>
+      <div class="pt-6 border-t border-slate-800 text-xs text-slate-500">
+        Campus Pulse AI &bull; Student Success Decision Platform
+      </div>
+    </div>
+  </div>
+  <!-- ========================================================================= -->
+  <!-- MAIN APPLICATION CONTENT CONTAINER                                        -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- ===================================================================== -->
+    <!-- TAB 1: STUDENT DATA ANALYTICS & ACTION CENTER                         -->
+    <!-- ===================================================================== -->
+    <div id="tab-analytics" class="tab-content active space-y-8">
+      
+      <!-- Mission Banner -->
+       <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-3 border border-blue-500/30">
+            <i class="fa-solid fa-sparkles text-amber-300"></i> Core Institutional USP
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
+            “We don't just show student data; we turn it into actionable decisions that improve student success.”
+          </h2>
+          <p class="text-sm text-blue-100 mt-3 leading-relaxed">
+            Real-time diagnostic analytics across academic performance, weekly study patterns, attendance risk factors, and automated prescription workflows.
+          </p>
+        </div>
+        <div class="absolute -right-8 -bottom-10 opacity-10 pointer-events-none text-9xl">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+      </div>
+      <!-- KPI Summary Cards Row -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover-lift">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-semibold mb-2">
+            <span>Total Students</span>
+            <i class="fa-solid fa-users text-blue-600 text-base"></i>
+          </div>
+          <div id="kpi-total-students" class="text-2xl font-black text-slate-900">2,392</div>
+          <p class="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
+            <span class="text-blue-600 font-bold"><i class="fa-solid fa-check"></i> Active</span> Kaggle Dataset
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover-lift">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-semibold mb-2">
+            <span>Average GPA</span>
+            <i class="fa-solid fa-chart-simple text-indigo-600 text-base"></i>
+          </div>
+          <div id="kpi-avg-gpa" class="text-2xl font-black text-slate-900">1.91</div>
+          <p class="text-[11px] text-slate-500 mt-1">
+            Scale 0.00 &ndash; 4.00
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover-lift">
+          <div class="flex items-center justify-between text-slate-400 text-xs font-semibold mb-2">
+            <span>Avg Attendance</span>
+            <i class="fa-regular fa-calendar-check text-emerald-600 text-base"></i>
+          </div>
+          <div id="kpi-avg-attendance" class="text-2xl font-black text-slate-900">68.7%</div>
+          <p class="text-[11px] text-slate-500 mt-1">
+            Threshold: 75% min
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-red-200/80 bg-red-50/20 shadow-sm hover-lift">
+          <div class="flex items-center justify-between text-red-500 text-xs font-semibold mb-2">
+            <span>At-Risk Students</span>
+            <i class="fa-solid fa-triangle-exclamation text-red-600 text-base"></i>
+          </div>
+          <div id="kpi-at-risk" class="text-2xl font-black text-red-600">1,309</div>
+          <p class="text-[11px] text-red-500 mt-1 font-semibold">
+            Requires Intervention
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-emerald-200/80 bg-emerald-50/20 shadow-sm hover-lift">
+          <div class="flex items-center justify-between text-emerald-600 text-xs font-semibold mb-2">
+            <span>Dean's List</span>
+            <i class="fa-solid fa-award text-emerald-600 text-base"></i>
+          </div>
+          <div id="kpi-deans-list" class="text-2xl font-black text-emerald-700">38</div>
+          <p class="text-[11px] text-emerald-600 mt-1 font-semibold">
+            Honors Standing
+          </p>
+        </div>
+      </div>
+      <!-- Actionable Decisions Center (Core USP) -->
+      <section id="analytics-action-center" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
+        <div class="flex flex-col sm:flex-rowitems-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold mb-2">
+              <i class="fa-solid fa-bolt"></i> High-Priority Decision Hub
+            </div>
+            <h3 class="text-xl font-black text-slate-900">Actionable Interventions Required</h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Identified student profiles where proactive academic intervention yields the highest measurable recovery.
+            </p>
+          </div>
+          <button onclick="window.campusAnalytics.applyFilters()" class="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-arrows-rotate"></i> Refresh Recommendations
+          </button>
+        </div>
+        <!-- Action Cards Grid -->
+        <div id="analytics-action-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+          <!-- Dynamically populated by analytics.js -->
+        </div>
+      </section>
+      <!-- What-If Predictive Decision Simulator -->
+      <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-8">
+            <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-400/30">
+              Interactive Decision Simulation Engine
+            </span>
+            <h3 class="text-2xl font-black mt-2">"What-If" Academic Recovery Simulator</h3>
+            <p class="text-xs text-blue-200 mt-1">
+              Test how increasing weekly study hours and enrolling in structured tutoring shifts student GPA and passing probability.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Controls (Left) -->
+            <div class="lg:col-span-7 space-y-5 bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-md">
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                  <span>Weekly Study Time:</span>
+                  <span id="sim-study-label" class="text-blue-400 font-mono">10.0 hrs/week</span>
+                </div>
+                <input id="sim-study-hours" type="range" min="1" max="25" step="0.5" value="10" 
+                  class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                  <span>1 hr/wk</span>
+                  <span>12 hrs/wk</span>
+                  <span>25 hrs/wk</span>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                  <span>Attendance Rate:</span>
+                  <span id="sim-att-label" class="text-emerald-400 font-mono">75% Attendance</span>
+                </div>
+                <input id="sim-attendance" type="range" min="40" max="100" step="1" value="75" 
+                  class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                  <span>40% (Critical)</span>
+                  <span>75% (Min)</span>
+                  <span>100% (Perfect)</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 pt-2">
+                <input id="sim-tutoring" type="checkbox" checked 
+                  class="w-5 h-5 rounded border-slate-700 text-blue-600 focus:ring-blue-500 bg-slate-800">
+                <label for="sim-tutoring" class="text-xs font-semibold cursor-pointer select-none">
+                  Enroll in Department Mentorship / Core Tutoring (+0.48 GPA Boost Factor)
+                </label>
+              </div>
+            </div>
+            <!-- Predicted Outcome (Right) -->
+            <div class="lg:col-span-5 text-center bg-white/10 p-6 rounded-2xl border border-white/15 backdrop-blur-md">
+              <span class="text-xs uppercase tracking-wider text-blue-200 font-bold block mb-1">Projected Semester GPA</span>
+              <div id="sim-predicted-gpa" class="text-5xl font-black text-emerald-400 my-2">2.45</div>
+              <div id="sim-predicted-grade" class="text-sm font-bold text-white mb-1">Grade Class: C</div>
+              <div id="sim-pass-prob" class="text-xs font-semibold text-blue-300">78% Success Probability</div>
+              <p class="text-[11px] text-slate-300 mt-3 pt-3 border-t border-white/10 leading-relaxed">
+                Applying targeted study hours and peer tutoring reverses critical at-risk trajectory into stable academic standing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Visual Analytics Charts Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Chart 1: Grade Class Distribution -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Grade Class Distribution</h4>
+              <p class="text-xs text-slate-400">Total student headcount across academic grades</p>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg font-mono">Classes A - F</span>
+          </div>
+          <div class="relative h-64">
+            <canvas id="chart-grade-dist"></canvas>
+          </div>
+        </div>
+        <!-- Chart 2: Attendance vs GPA Correlation -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Attendance vs. GPA Correlation</h4>
+              <p class="text-xs text-slate-400">Student clusters highlighting attendance deficit risks</p>
+            </div>
+            <span class="text-xs bg-red-50 text-red-700 px-2.5 py-1 rounded-lg font-semibold">&lt;75% Attendance Risk</span>
+          </div>
+          <div class="relative h-64">
+            <canvas id="chart-scatter"></canvas>
+          </div>
+        </div>
+        <!-- Chart 3: Department Performance Comparison -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Department Performance Benchmark</h4>
+              <p class="text-xs text-slate-400">Mean GPA comparison across academic branches</p>
+            </div>
+            <span class="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg font-semibold">5 Departments</span>
+          </div>
+          <div class="relative h-64">
+            <canvas id="chart-department"></canvas>
+          </div>
+        </div>
+        <!-- Chart 4: Risk Level Breakdown -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Student Risk Classification</h4>
+              <p class="text-xs text-slate-400">Proportional breakdown of academic standings</p>
+            </div>
+            <span class="text-xs bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg font-semibold">Risk Tiers</span>
+          </div>
+          <div class="relative h-64">
+            <canvas id="chart-risk-donut"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Filters & Student Data Roster Table -->
+      <section class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+        
+        <!-- Controls Bar -->
+        <div class="p-6 border-b border-slate-100 bg-slate-50/50 space-y-4">
+          <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div>
+              <h3 class="font-black text-slate-900 text-lg">Student Diagnostic Roster</h3>
+              <p class="text-xs text-slate-500">Filter, search, inspect profiles, and execute intervention decisions.</p>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="analytics-export-csv" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semiboldpx-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-file-csv text-emerald-600"></i> Export CSV
+              </button>
+              <button id="analytics-reset-filters" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-3 py-2 rounded-xl text-xs transition">
+                Reset Filters
+              </button>
+            </div>
+          </div>
+          <!-- Filter Dropdowns Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Department</label>
+              <select id="analytics-filter-dept" class="w-full text-xs bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500">
+                <option value="all">All Departments (5)</option>
+                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                <option value="Data Science & AI">Data Science & AI</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Business Analytics & Management">Business Analytics & Management</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Risk Standing</label>
+              <select id="analytics-filter-risk" class="w-full text-xs bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500">
+                <option value="all">All Risk Levels</option>
+                <option value="High Risk">High Risk (&lt;2.0 GPA or Low Attendance)</option>
+                <option value="Moderate Risk">Moderate Risk (2.0 - 2.5 GPA)</option>
+                <option value="On Track">On Track (Good Standing)</option>
+                <option value="Dean's List">Dean's List (Honors)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Search Student</label>
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input id="analytics-search" type="text" placeholder="Search by name, ID (e.g. STU-1002)..." 
+                  class="w-full text-xs bg-white border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+          </div>
+                    <!-- Drag and Drop Custom Data Ingestion Area -->
+          <div id="analytics-dropzone" class="border-2 border-dashed border-slate-200 hover:border-blue-500 rounded-2xl p-4 text-center cursor-pointer transition bg-white group">
+            <input id="analytics-file-input" type="file" accept=".csv,.json" class="hidden">
+            <div class="flex items-center justify-center gap-3 text-xs text-slate-600">
+              <i class="fa-solid fa-cloud-arrow-up text-blue-600 text-lg group-hover:scale-110 transition"></i>
+              <span><strong>Drag & drop custom student CSV / JSON file here</strong> or <span class="text-blue-600 underline font-semibold">browse computer</span></span>
+              <span class="text-[11px] text-slate-400 hidden sm:inline">(Supports Student_performance_data _.csv or custom formats)</span>
+            </div>
+          </div>
+        </div>
+        <!-- Table View -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200">
+                <th class="py-3 px-4">Student ID</th>
+                <th class="py-3 px-4">Student Profile</th>
+                <th class="py-3 px-4">Department</th>
+                <th class="py-3 px-4">GPA</th>
+                <th class="py-3 px-4">Attendance Rate</th>
+                <th class="py-3 px-4">Risk Standing</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="analytics-table-body" class="divide-y divide-slate-100">
+              <!-- Dynamically populated by analytics.js -->
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <div id="analytics-pagination" class="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
+          <!-- Dynamically populated by analytics.js -->
+        </div>
+      </section>
+    </div>
+    <!-- ===================================================================== -->
+    <!-- TAB 2: EXAM TIMETABLE & ACTIONABLE PREP                               -->
+    <!-- ===================================================================== -->
+    <div id="tab-timetable" class="tab-content hidden space-y-8">
+      
+      <!-- Live Countdown Banner -->
+      <div id="timetable-next-exam-banner">
+        <!-- Dynamically populated by timetable.js with live ticking timer -->
+      </div>
+      <!-- Controls & Header -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-2xl font-black text-slate-900">Examination Timetable & Prep Planner</h3>
+          <p class="text-xs text-slate-500 mt-1">Manage dates, exam halls, syllabus coverage, and push study blocks into your planner.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="timetable-btn-add" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-plus"></i> Add Exam Schedule
+          </button>
+          <button id="timetable-btn-ics" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-regular fa-calendar text-blue-600"></i> Download iCal (.ics)
+          </button>
+                    <button id="timetable-btn-print" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-print"></i> Print
+          </button>
+        </div>
+      </div>
+      <!-- Filter Controls -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div>
+          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Filter by Department</label>
+          <select id="timetable-filter-dept" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-700">
+            <option value="all">All Departments</option>
+            <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+            <option value="Data Science & AI">Data Science & AI</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Business Analytics & Management">Business Analytics & Management</option>
+          </select>
+        </div>
+          <div>
+          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Filter by Difficulty</label>
+          <select id="timetable-filter-difficulty" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-700">
+            <option value="all">All Difficulty Levels</option>
+            <option value="Hard">Hard Difficulty (Heavy Syllabus)</option>
+            <option value="Medium">Medium Difficulty</option>
+            <option value="Easy">Easy Difficulty</option>
+          </select>
+        </div>
+          <div>
+          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Search Course / Hall</label>
+          <input id="timetable-search" type="text" placeholder="Search by course code, name, or hall..." 
+            class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-700">
+        </div>
+      </div>
+      <!-- Exam Cards Grid -->
+      <div id="timetable-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically populated by timetable.js -->
+      </div>
+    </div>
+     <!-- ===================================================================== -->
+    <!-- TAB 3: SMART PLANNER & FOCUS POMODORO                                 -->
+    <!-- ===================================================================== -->
+    <div id="tab-planner" class="tab-content hidden space-y-8">
+      
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-2xl font-black text-slate-900">Smart Activity & Study Planner</h3>
+          <p class="text-xs text-slate-500 mt-1">Organize daily revision, track Pomodoro study focus, and generate automated high-yield schedules.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="planner-btn-ai-generate" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow-md">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Study Plan
+          </button>
+          <button id="planner-btn-add-task" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-plus"></i> Add Task
+          </button>
+        </div>
+      </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Pomodoro Timer Card (5 Cols) -->
+        <div class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md flex flex-col items-center text-center">
+          
+          <div class="flex items-center justify-between w-full mb-6">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pomodoro Study Engine</span>
+            <div class="flex items-center gap-1.5 text-xs text-slate-500">
+              <i class="fa-solid fa-fire text-amber-500"></i>
+              <span id="stat-pomodoros-count" class="font-bold text-slate-800">0</span> Sessions
+            </div>
+          </div>
+            <!-- Mode Selector Tabs -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold mb-8">
+            <button data-mode="focus" class="timer-mode-btn px-4 py-1.5 rounded-lg bg-blue-600 text-white transition">Focus (25m)</button>
+            <button data-mode="shortBreak" class="timer-mode-btn px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">Short Break (5m)</button>
+            <button data-mode="longBreak" class="timer-mode-btn px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">Long Break (15m)</button>
+          </div>
+          <!-- Circular Timer Ring -->
+          <div class="timer-circle-container my-2">
+            <svg class="timer-svg" width="200" height="200">
+              <circle class="timer-bg-circle" cx="100" cy="100" r="90" />
+              <circle id="timer-circle-progress" class="timer-progress-circle" cx="100" cy="100" r="90" />
+            </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="timer-time-display" class="text-4xl font-black text-slate-900 font-mono tracking-tight">25:00</span>
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Focus Sprint</span>
+            </div>
+          </div>
+          <!-- Timer Buttons -->
+          <div class="flex items-center gap-3 mt-8">
+            <button id="timer-btn-toggle" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl text-sm transition shadow-md flex items-center">
+              <i class="fa-solid fa-play mr-1.5"></i> Start Focus
+            </button>
+            <button id="timer-btn-reset" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+            </button>
+          </div>
+           <!-- Logged Focus Time -->
+          <div class="w-full pt-6 mt-8 border-t border-slate-100 grid grid-cols-2 gap-4 text-xs">
+            <div>
+              <span class="text-slate-400 block">Total Focus Time</span>
+              <strong id="stat-focus-minutes" class="text-slate-800 font-bold text-sm">0 mins</strong>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Sound Alert</span>
+              <strong class="text-emerald-600 font-semibold"><i class="fa-solid fa-volume-high"></i> Active Chime</strong>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Task List & Daily Schedule (7 Cols) -->
+        <div class="lg:col-span-7 space-y-5">
+            <!-- Progress Card -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+            <div class="flex-1 mr-4">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="font-bold text-slate-700">Today's Study Progress</span>
+                <span id="planner-stat-pct" class="font-mono font-bold text-blue-600">0%</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div id="planner-progress-bar" class="h-full bg-blue-600 rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="text-right text-xs shrink-0 pl-4 border-l border-slate-100">
+              <span class="text-slate-400 block">Tasks Completed</span>
+              <span class="font-bold text-slate-800"><span id="planner-stat-done">0</span> / <span id="planner-stat-total">0</span></span>
+            </div>
+          </div>
+          <!-- Filter Pills -->
+          <div class="flex items-center gap-1.5 text-xs font-semibold">
+            <button data-filter="all" class="planner-filter-btn px-3 py-1.5 rounded-lg bg-blue-600 text-white transition">All Tasks</button>
+            <button data-filter="pending" class="planner-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Pending</button>
+            <button data-filter="completed" class="planner-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Completed</button>
+              <button data-filter="high" class="planner-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition">High Priority</button>
+          </div>
+          <!-- Tasks List Container -->
+          <div id="planner-tasks-container" class="space-y-3">
+            <!-- Dynamically populated by planner.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- ===================================================================== -->
+    <!-- TAB 4: AI RESUME BUILDER                                              -->
+    <!-- ===================================================================== -->
+    <div id="tab-resume" class="tab-content hidden space-y-8">
+      
+      <!-- Top Action Bar -->
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+        <div>
+          <h3 class="text-2xl font-black text-slate-900">AI Student Resume Builder</h3>
+          <p class="text-xs text-slate-500 mt-0.5">Pre-populate from student database, polish bullet points with STAR formula, and export to PDF.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+             <!-- Auto Fill Dropdown -->
+          <select id="resume-select-student" class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-700 max-w-xs">
+            <!-- Dynamically populated from student records -->
+          </select>
+          <button id="resume-btn-print" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-file-pdf"></i> Download PDF / Print
+          </button>
+        </div>
+      </div>
+       <!-- Split Screen Layout: Left Editor, Right Live Preview -->
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Form Controls (5 Cols) -->
+        <div class="xl:col-span-5 space-y-6">
+          
+          <!-- Template Theme Selector -->
+          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Resume Theme Template</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-semibold">
+              <button data-theme="modern" class="resume-theme-btn p-2 rounded-xl border border-blue-600 bg-blue-50 text-slate-800 text-center transition">Modern Tech</button>
+              <button data-theme="executive" class="resume-theme-btn p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-center transition">Executive</button>
+              <button data-theme="creative" class="resume-theme-btn p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-center transition">Creative</button>
+                <button data-theme="academic" class="resume-theme-btn p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-center transition">Academic</button>
+            </div>
+          </div>
+          <!-- AI Bullet Point Enhancer Box -->
+          <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-5 shadow-md">
+            <div class="flex items-center gap-2 mb-2">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-200">AI Bullet Point Enhancer (STAR)</span>
+            </div>
+              <p class="text-xs text-blue-100 mb-3">Paste a draft bullet point to transform it into a quantifiable achievement metric:</p>
+            <div class="flex gap-2">
+              <input id="resume-ai-draft-bullet" type="text" placeholder="e.g. built a machine learning model for prediction" 
+                class="flex-1 text-xs bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+              <button id="resume-btn-ai-enhance" class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-3 py-2 rounded-xl text-xs transition shrink-0">
+                Enhance
+              </button>
+            </div>
+            <!-- Output Container -->
+            <div id="resume-ai-enhanced-results" class="hidden mt-3 space-y-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+            <!-- Resume Editor Form -->
+          <div id="resume-form" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5 text-xs">
+            
+            <!-- Personal Info -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm mb-3 pb-2 border-b border-slate-100">1. Contact & Identity</h4>
+              <div class="grid grid-cols-2 gap-3">
+                <input id="resume-input-name" type="text" placeholder="Full Name" class="col-span-2 p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <input id="resume-input-email" type="email" placeholder="Email Address" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <input id="resume-input-phone" type="text" placeholder="Phone Number" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <input id="resume-input-location" type="text" placeholder="Location (City, Country)" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                    <input id="resume-input-linkedin" type="text" placeholder="LinkedIn Profile" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <input id="resume-input-github" type="text" placeholder="GitHub Profile" class="col-span-2 p-2 bg-slate-50 border border-slate-200 rounded-lg">
+              </div>
+            </div>
+            <!-- Summary -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm mb-2 pb-2 border-b border-slate-100">2. Professional Summary</h4>
+              <textarea id="resume-input-summary" rows="3" placeholder="Brief summary of strengths and academic focus..." 
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg"></textarea>
+            </div>
+              <!-- Education -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm mb-3 pb-2 border-b border-slate-100">3. Education</h4>
+              <div class="space-y-2">
+                <input id="resume-input-degree" type="text" placeholder="Degree & Major" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="resume-input-institution" type="text" placeholder="University / Institute" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                  <input id="resume-input-year" type="text" placeholder="Graduation Year" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                </div>
+                <input id="resume-input-gpa" type="text" placeholder="GPA / Standing" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+              </div>
+            </div>
+                <!-- Skills -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm mb-3 pb-2 border-b border-slate-100">4. Technical Skills</h4>
+              <div class="space-y-2">
+                <input id="resume-input-skills-lang" type="text" placeholder="Languages (e.g. Python, C++, SQL)" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <input id="resume-input-skills-tools" type="text" placeholder="Frameworks & Tools (e.g. React, Docker, Git)" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <input id="resume-input-skills-concepts" type="text" placeholder="Core Concepts (e.g. Algorithms, Distributed Systems)" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+              </div>
+            </div>
+              <!-- Projects -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm mb-3 pb-2 border-b border-slate-100">5. Featured Project</h4>
+              <div class="space-y-2">
+                <input id="resume-input-proj-title" type="text" placeholder="Project Name" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold">
+                <input id="resume-input-proj-tech" type="text" placeholder="Tech Stack (e.g. Python, Fastify, Docker)" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <textarea id="resume-input-proj-bullets" rows="3" placeholder="Achievement bullet points (one per line)..." class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg"></textarea>
+              </div>
+            </div>
+                        <!-- Experience -->
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm mb-3 pb-2 border-b border-slate-100">6. Experience / Internship</h4>
+              <div class="space-y-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="resume-input-exp-role" type="text" placeholder="Role Title" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                  <input id="resume-input-exp-company" type="text" placeholder="Company / Lab" class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                </div>
+                <input id="resume-input-exp-duration" type="text" placeholder="Duration (e.g. Jun 2025 - Aug 2025)" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg">
+                <textarea id="resume-input-exp-bullets" rows="2" placeholder="Key responsibilities and metrics..." class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg"></textarea>
+              </div>
+            </div>
+          
+                      </div>
+        </div>
+        <!-- Right: Live Interactive Resume Preview (7 Cols) -->
+        <div class="xl:col-span-7">
+          <div class="sticky top-20">
+            <div class="flex items-center justify-between mb-2 text-xs text-slate-400">
+              <span class="font-bold uppercase tracking-wider"><i class="fa-solid fa-eye text-blue-600 mr-1"></i> Live Real-Time Preview</span>
+              <span>Formatted for 8.5" x 11" Paper</span>
+            </div>
+            <div id="resume-preview-sheet" class="resume-preview-container print-area">
+              <!-- Dynamically populated by resume.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+       </div>
+    <!-- ===================================================================== -->
+    <!-- TAB 5: AI MOCK INTERVIEW STUDIO                                       -->
+    <!-- ===================================================================== -->
+    <div id="tab-interview" class="tab-content hidden space-y-8">
+      
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-2xl font-black text-slate-900">AI Mock Interview Studio</h3>
+          <p class="text-xs text-slate-500 mt-1">Practice realistic technical & behavioral interview questions with voice speech recognition and instant AI evaluation.</p>
+        </div>
+         <!-- Track Selector -->
+        <div class="flex flex-wrap items-center bg-white p-1 rounded-xl border border-slate-200 text-xs font-semibold">
+          <button data-track="software_engineering" class="interview-track-btn px-3 py-1.5 rounded-lg bg-blue-600 text-white transition">Software Eng</button>
+          <button data-track="data_science_ai" class="interview-track-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Data Science & AI</button>
+          <button data-track="full_stack" class="interview-track-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Full Stack</button>
+          <button data-track="behavioral" class="interview-track-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Behavioral / HR</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Main Interview Session Area (8 Cols) -->
+        <div class="lg:col-span-8 space-y-6">
+          
+          <!-- Question Card -->
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
+            
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+              <div class="flex items-center gap-2">
+                <span id="interview-question-category" class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold font-mono">Algorithms</span>
+                <span id="interview-question-difficulty" class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-700">Medium Level</span>
+              </div>
+               <span id="interview-question-count" class="text-xs font-semibold text-slate-400">Question 1 of 4</span>
+            </div>
+            <!-- Question Title -->
+            <h4 id="interview-question-title" class="text-xl font-bold text-slate-900 leading-snug mb-6">
+              Explain how a Hash Table works and how collisions are resolved in production systems.
+            </h4>
+           <!-- Question Action Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-100">
+              <button id="interview-btn-speak" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-volume-high text-blue-600"></i> Read Aloud
+              </button>
+              <div class="flex items-center gap-2">
+                <button id="interview-btn-prev" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition text-xs font-semibold">
+                  <i class="fa-solid fa-arrow-left"></i> Previous
+                </button>
+                <button id="interview-btn-random" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition text-xs font-semibold">
+                  <i class="fa-solid fa-shuffle"></i> Random
+                </button>
+                <button id="interview-btn-next" class="p-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition text-xs font-semibold px-3">
+                  Next <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+                 <!-- Student Answer Area -->
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-4">
+            
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-keyboard text-blue-600"></i> Your Answer:
+              </span>
+              
+              <div class="flex items-center gap-3">
+                <!-- Audio Wave Visualizer -->
+                <div id="interview-voice-wave" class="hidden audio-wave">
+                  <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                </div>
+                <!-- Voice Recording Button -->
+                <button id="interview-btn-record" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-microphone text-blue-600"></i> Voice Answer
+                </button>
+                <span id="interview-word-count" class="text-xs font-mono text-slate-400">0 words</span>
+              </div>
+            </div>
+            <textarea id="interview-answer-input" rows="6" 
+              placeholder="Type your response or click 'Voice Answer' to speak. Structure your points clearly with technical concepts or STAR examples..." 
+              class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-[11px] text-slate-400">
+                <i class="fa-solid fa-circle-info text-blue-500 mr-1"></i> AI will evaluate technical accuracy, structure, clarity, and tone.
+              </span>
+              <button id="interview-btn-submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition shadow-md flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Submit for AI Evaluation
+              </button>
+            </div>
+          </div>
+           <!-- AI Evaluation Feedback Section -->
+          <div id="interview-feedback-section" class="hidden">
+            <!-- Dynamically populated by interview.js -->
+          </div>
+        </div>
+        <!-- Right: Interview History & Tips (4 Cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          
+          <!-- AI Interviewer Avatar Card -->
+          <div class="bg-gradient-to-tr from-slate-900 to-indigo-950 text-white rounded-3xl p-6 text-center shadow-lg border border-slate-800">
+            <div class="relative w-20 h-20 mx-auto mb-4">
+              <div class="w-20 h-20 rounded-full bg-blue-500/20 border-2 border-blue-400 flex items-center justify-center text-3xl text-blue-300">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <span class="absolute bottom-0 right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-slate-900"></span>
+            </div>
+            <h4 class="font-bold text-base">Campus AI Interviewer</h4>
+            <p class="text-xs text-blue-200 mt-1">Ready to assess technical competence, problem structuring, and communication tone.</p>
+          </div>
+          <!-- Practice History Card -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-sm mb-3">Recent Practice Scores</h4>
+            <div id="interview-history-container" class="space-y-2">
+              <!-- Dynamically populated by interview.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- ===================================================================== -->
+    <!-- TAB 6: ALERT NOTIFICATIONS HUB                                        -->
+    <!-- ===================================================================== -->
+    <div id="tab-alerts" class="tab-content hidden space-y-8">
+      
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-2xl font-black text-slate-900">Institutional Alert & Reminder Hub</h3>
+          <p class="text-xs text-slate-500 mt-1">Real-time alerts for attendance deficiencies, upcoming exams, assignment deadlines, and campus broadcasts.</p>
+        </div>
+        <button id="alert-btn-create-broadcast" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-bullhorn"></i> Broadcast Campus Alert
+        </button>
+      </div>
+      <!-- Alerts Grid -->
+      <div id="alerts-hub-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically populated by alerts.js -->
+      </div>
+    </div>
+  </main>
+  <!-- ========================================================================= -->
+  <!-- MODALS                                                                    -->
+  <!-- ========================================================================= -->
+   <!-- Modal 1: Student Detailed Profile Dossier -->
+  <div id="modal-student-profile" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100">
+        <div>
+          <h3 id="modal-prof-name" class="text-xl font-black text-slate-900">Aarav Sharma</h3>
+          <p id="modal-prof-id" class="text-xs text-slate-500 mt-0.5">STU-1001 &bull; Computer Science & Engineering (Semester 6)</p>
+          <p id="modal-prof-email" class="text-xs text-slate-400">aarav.sharma@campus.edu</p>
+        </div>
+        <button id="modal-profile-close" class="text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+       <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-4 gap-3 my-5 text-center text-xs">
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <span class="text-slate-400 block">GPA</span>
+          <strong id="modal-prof-gpa" class="text-base font-black text-slate-800">3.85</strong>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <span class="text-slate-400 block">Attendance</span>
+          <strong id="modal-prof-attendance" class="text-base font-black text-slate-800">92%</strong>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <span class="text-slate-400 block">Study Hours</span>
+          <strong id="modal-prof-study" class="text-base font-black text-slate-800">19.8 hrs/wk</strong>
+        </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <span class="text-slate-400 block">Status</span>
+          <span id="modal-prof-risk" class="px-2 py-0.5 font-bold rounded-full text-[10px] bg-green-100 text-green-700">Dean's List</span>
+        </div>
+      </div>
+      <!-- Skills -->
+      <div class="mb-5">
+        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Verified Skill Set</h5>
+        <div id="modal-prof-skills" class="flex flex-wrap gap-1.5"></div>
+      </div>
+      <!-- Subject Breakdown -->
+      <div class="mb-5">
+        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Subject Performance & Attendance Breakdown</h5>
+        <table class="w-full text-left">
+          <thead>
+              <tr class="text-[11px] font-bold text-slate-400 border-b border-slate-100">
+              <th class="py-1">Subject</th>
+              <th class="py-1 text-center">Score</th>
+              <th class="py-1 text-center">Attendance</th>
+              <th class="py-1 text-right">Status</th>
+            </tr>
+          </thead>
+          <tbody id="modal-prof-subjects" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+      <!-- Recommendation & Projected Outcome -->
+      <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-4 mb-6 text-xs">
+        <div class="font-bold text-blue-900 mb-1 flex items-center gap-1.5">
+          <i class="fa-solid fa-wand-magic-sparkles text-blue-600"></i> AI Action Recommendation:
+        </div>
+         <p id="modal-prof-recommendation" class="text-slate-700 leading-relaxed font-medium mb-2"></p>
+        <div class="text-[11px] text-slate-500">
+          <strong>Projected Impact:</strong> <span id="modal-prof-impact" class="text-emerald-700 font-semibold"></span>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+        <button id="modal-prof-btn-resume" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5">
+          <i class="fa-solid fa-file-invoice"></i> Open in AI Resume Builder
+        </button>
+      </div>
+    </div>
+  </div>
+      <!-- Modal 2: Actionable Decision Prescription Modal -->
+  <div id="modal-action-decision" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100 mb-4">
+        <div>
+          <span class="text-xs font-bold text-blue-600 uppercase tracking-wider flex items-center gap-1">
+            <i class="fa-solid fa-bolt"></i> Actionable Prescription
+          </span>
+          <h3 id="action-modal-student-name" class="text-lg font-bold text-slate-900 mt-1">Priya Patel (STU-1002)</h3>
+        </div>
+        <button id="modal-action-close" class="text-slate-400 hover:text-slate-700 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="space-y-4 text-xs">
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+          <span class="text-slate-400 block mb-1">Recommended Action</span>
+          <p id="action-modal-recommendation" class="font-semibold text-slate-800 leading-relaxed"></p>
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Action Type</label>
+          <select id="action-modal-type" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium">
+            <option value="Mandatory 1-on-1 Tutoring">Mandatory 1-on-1 Tutoring Clinic</option>
+            <option value="Official Attendance Warning Notice">Official Attendance Warning Notice</option>
+            <option value="Parent-Faculty Advisor Conference">Parent-Faculty Advisor Conference</option>
+            <option value="Assign Peer Study Mentor">Assign Peer Study Mentor</option>
+            <option value="Enroll in Smart Planner Routine">Enroll in Smart Planner Routine (+5 hrs/wk)</option>
+          </select>
+        </div>
+         <div>
+          <label class="font-bold text-slate-700 block mb-1">Advisor / Faculty Notes</label>
+          <textarea id="action-modal-notes" rows="3" placeholder="Additional instructions or notes for this student..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
+        </div>
+        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800 text-[11px]">
+          <strong>Predicted Improvement:</strong> <span id="action-modal-impact"></span>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-slate-100">
+        <button onclick="document.getElementById('modal-action-decision').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900">Cancel</button>
+         <button id="action-modal-execute-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition shadow-md flex items-center gap-1.5">
+          <i class="fa-solid fa-check"></i> Apply Decision & Dispatch Notice
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal 3: Add Exam Schedule Modal -->
+  <div id="modal-add-exam" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100 mb-4">
+        <h3 class="text-lg font-bold text-slate-900">Add Examination Schedule</h3>
+        <button id="modal-exam-close" class="text-slate-400 hover:text-slate-700 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+        <form id="form-add-exam" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Course Code</label>
+            <input id="exam-input-code" type="text" placeholder="e.g. CS405" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Course Name</label>
+            <input id="exam-input-name" type="text" placeholder="e.g. Distributed Computing" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Department</label>
+            <select id="exam-input-dept" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+                  <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+              <option value="Data Science & AI">Data Science & AI</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Business Analytics & Management">Business Analytics & Management</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Semester</label>
+            <input id="exam-input-sem" type="number" min="1" max="8" value="6" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+         <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Exam Date</label>
+            <input id="exam-input-date" type="date" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Exam Time</label>
+            <input id="exam-input-time" type="text" placeholder="09:30 AM - 12:30 PM" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Venue / Examination Hall</label>
+            <input id="exam-input-venue" type="text" placeholder="Hall B-201" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+            <div>
+            <label class="font-semibold text-slate-700 block mb-1">Invigilator</label>
+            <input id="exam-input-instructor" type="text" placeholder="Dr. Sarah Mitchell" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Difficulty</label>
+            <select id="exam-input-diff" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <option value="Hard">Hard</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Easy">Easy</option>
+            </select>
+          </div>
+          <div>
+              <label class="font-semibold text-slate-700 block mb-1">Coverage %</label>
+            <input id="exam-input-coverage" type="number" min="10" max="100" value="80" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Prep Hours</label>
+            <input id="exam-input-hours" type="number" min="2" max="60" value="16" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Core Focus Topics (Comma separated)</label>
+          <input id="exam-input-topics" type="text" placeholder="e.g. Dynamic Programming, Graphs, Complexity" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+          <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
+          <button type="button" onclick="document.getElementById('modal-add-exam').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition">Save Exam</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal 4: Add Planner Task Modal -->
+  <div id="modal-add-task" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100 mb-4">
+        <h3 class="text-lg font-bold text-slate-900">Add Study Task</h3>
+         <button id="modal-task-close" class="text-slate-400 hover:text-slate-700 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <form id="form-add-task" class="space-y-3 text-xs">
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Task Title</label>
+          <input id="task-input-title" type="text" placeholder="e.g. Practice 5 LeetCode Dynamic Programming problems" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Subject / Tag</label>
+            <input id="task-input-subject" type="text" placeholder="Algorithms" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+          <div>
+              <label class="font-semibold text-slate-700 block mb-1">Due Date</label>
+            <input id="task-input-date" type="date" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Priority</label>
+            <select id="task-input-priority" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <option value="High">High Priority</option>
+              <option value="Medium" selected>Medium Priority</option>
+              <option value="Low">Low Priority</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Est. Hours</label>
+            <input id="task-input-hours" type="number" step="0.5" value="2.0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Notes / Instructions</label>
+          <textarea id="task-input-notes" rows="2" placeholder="Key chapters or practice links..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
+          <button type="button" onclick="document.getElementById('modal-add-task').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition">Add to Planner</button>
+        </div>
+          </form>
+    </div>
+  </div>
+  <!-- Modal 5: Broadcast Campus Alert Modal -->
+  <div id="modal-create-alert" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100 mb-4">
+        <h3 class="text-lg font-bold text-slate-900">Broadcast Campus Notification</h3>
+        <button id="modal-alert-close" class="text-slate-400 hover:text-slate-700 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <form id="form-create-alert" class="space-y-3 text-xs">
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Notification Title</label>
+           <input id="alert-input-title" type="text" placeholder="e.g. Schedule Revision: Operating Systems Exam" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Category</label>
+            <select id="alert-input-type" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <option value="warning">Warning / Deadline</option>
+              <option value="critical">Critical Academic</option>
+              <option value="info" selected>Institutional Info</option>
+              <option value="success">Placement / Honors</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Target Action</label>
+            <select id="alert-input-target" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <option value="timetable">Exam Timetable</option>
+              <option value="planner">Smart Planner</option>
+              <option value="analytics">Student Analytics</option>
+              <option value="resume">Resume Builder</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Message Body</label>
+          <textarea id="alert-input-message" rows="3" placeholder="Notification details sent to students & advisors..." required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
+        </div>
+         <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
+          <button type="button" onclick="document.getElementById('modal-create-alert').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition">Send Broadcast</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+  <!-- Footer -->
+  <footer class="mt-auto py-6 bg-slate-900 border-t border-slate-800 text-center text-xs text-slate-400 no-print">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>
+         <strong class="text-white">Campus Pulse AI</strong> &mdash; Actionable Student Success Platform
+      </div>
+      <div class="text-[11px] text-slate-500">
+        “We don't just show student data; we turn it into actionable decisions that improve student success.”
+      </div>
+    </div>
+  </footer>
+  <!-- Application Scripts (Loaded in dependency order) -->
+  <script src="./data.js"></script>
+  <script src="./interview-data.js"></script>
+  <script src="js/interview.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/timetable.js"></script>
+  <script src="js/planner.js"></script>
+  <script src="js/resume.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/alerts.js"></script>
+  <script src="./js/navigation.js"></script>
+ 
+<script>
+  const email = localStorage.getItem("userEmail");
+
+  const userProfile = document.getElementById("user-profile");
+  const loginButton = document.getElementById("login-button");
+  const profileToggle = document.getElementById("profile-toggle");
+  const profileMenu = document.getElementById("profile-menu");
+
+  if (email && userProfile && loginButton) {
+    const name = localStorage.getItem("userName") || email.split("@")[0];
+
+    document.getElementById("profile-name").textContent = name;
+    document.getElementById("profile-email").textContent = email;
+    document.getElementById("profile-initial").textContent =
+      name.charAt(0).toUpperCase();
+
+    document.getElementById("menu-profile-name").textContent = name;
+    document.getElementById("menu-profile-email").textContent = email;
+
+    userProfile.classList.remove("hidden");
+    userProfile.classList.add("flex");
+    loginButton.classList.add("hidden");
+  }
+
+  // Open and close profile menu
+  profileToggle?.addEventListener("click", function (event) {
+    event.stopPropagation();
+    profileMenu.classList.toggle("hidden");
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", function (event) {
+    if (userProfile && !userProfile.contains(event.target)) {
+      profileMenu?.classList.add("hidden");
+    }
+  });
+
+  // My Profile
+  document.getElementById("view-profile-btn")
+    ?.addEventListener("click", function () {
+     
+profileMenu?.classList.add("hidden");
+window.location.href = "profile.html";
+    });
+
+  // Logout
+  document.getElementById("logout-button")
+    ?.addEventListener("click", function () {
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userName");
+      window.location.href = "login.html";
+    });
+</script> 
+</body>
+</html>

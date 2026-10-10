@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Mock Interview | Campus Pulse AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f5f7fb;
+    }
+    .primary {
+      background: #4f46e5;
+    }
+    .primary:hover {
+      background: #4338ca;
+    }
+    .option {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+    }
+    .option:has(input:checked) {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+  <header class="bg-white border-b px-5 py-4">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="font-bold text-xl text-indigo-700">
+        Campus Pulse AI
+      </a>
+      <a href="index.html" class="text-sm text-slate-600 hover:text-indigo-600">
+        ← Dashboard
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-5 md:p-8">
+    <div class="mb-7">
+      <p class="text-indigo-600 font-semibold text-sm">CAREER DEVELOPMENT</p>
+      <h1 class="text-3xl font-bold mt-2">AI Mock Interview</h1>
+      <p class="text-slate-500 mt-2">
+        Practice interview questions and discover how to improve your answers.
+      </p>
+    </div>
+
+    <section id="setup" class="bg-white rounded-2xl shadow-sm border p-6 md:p-8">
+      <h2 class="text-xl font-bold mb-5">Configure Your Interview</h2>
+
+      <form id="setup-form" class="space-y-5">
+        <div>
+          <label for="role" class="block font-medium mb-2">Target Job Role</label>
+          <select id="role" required class="w-full border rounded-xl p-3 bg-white">
+            <option value="Frontend Developer">Frontend Developer</option>
+            <option value="Full Stack Developer">Full Stack Developer</option>
+            <option value="Python Developer">Python Developer</option>
+            <option value="Java Developer">Java Developer</option>
+            <option value="AI/ML Engineer">AI/ML Engineer</option>
+            <option value="Data Analyst">Data Analyst</option>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="HR Interview">HR Interview</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium mb-2">Interview Type</label>
+          <div class="grid sm:grid-cols-3 gap-3">
+            <label class="option"><input type="radio" name="type" value="Technical" checked> Technical</label>
+            <label class="option"><input type="radio" name="type" value="HR"> HR</label>
+            <label class="option"><input type="radio" name="type" value="Behavioral"> Behavioral</label>
+          </div>
+        </div>
+
+        <div>
+          <label for="difficulty" class="block font-medium mb-2">Difficulty Level</label>
+          <select id="difficulty" class="w-full border rounded-xl p-3 bg-white">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="count" class="block font-medium mb-2">Number of Questions</label>
+          <select id="count" class="w-full border rounded-xl p-3 bg-white">
+            <option value="5">5 Questions</option>
+            <option value="10">10 Questions</option>
+          </select>
+        </div>
+
+        <button class="primary w-full text-white font-semibold rounded-xl p-3" type="submit">
+          Start Mock Interview →
+        </button>
+      </form>
+    </section>
+
+    <section id="interview" class="hidden bg-white rounded-2xl shadow-sm border p-6 md:p-8">
+      <div class="flex justify-between items-center gap-3 mb-4">
+        <span id="role-label" class="text-sm font-semibold text-indigo-600"></span>
+        <span id="progress" class="text-sm text-slate-500"></span>
+      </div>
+      <div class="w-full bg-slate-100 rounded-full h-2 mb-7">
+        <div id="progress-bar" class="primary h-2 rounded-full" style="width:0%"></div>
+      </div>
+
+      <h2 id="question" class="text-xl md:text-2xl font-bold leading-relaxed"></h2>
+      <p class="text-sm text-slate-500 mt-3">Write your answer in your own words.</p>
+
+      <textarea id="answer" rows="7" maxlength="5000"
+        placeholder="Type your answer here..."
+        class="w-full border rounded-xl p-4 mt-5 focus:outline-none focus:ring-2 focus:ring-indigo-400"></textarea>
+
+      <p id="answer-error" class="text-red-600 text-sm mt-2 hidden">
+        Please write an answer before continuing.
+      </p>
+
+      <div class="flex justify-between gap-3 mt-5">
+        <button id="exit-btn" type="button" class="border rounded-xl px-4 py-3">
+          Exit
+        </button>
+        <button id="next-btn" type="button" class="primary text-white rounded-xl px-6 py-3 font-semibold">
+          Next Question →
+        </button>
+      </div>
+    </section>
+
+    <section id="results" class="hidden bg-white rounded-2xl shadow-sm border p-6 md:p-8">
+      <div class="text-center">
+        <div class="inline-flex rounded-full bg-indigo-50 p-4 text-3xl">🎯</div>
+        <h2 class="text-2xl font-bold mt-4">Interview Completed!</h2>
+        <p class="text-slate-500 mt-2">Here is your practice summary.</p>
+        <p id="score" class="text-5xl font-bold text-indigo-700 mt-6">0%</p>
+        <p class="text-slate-500 mt-2">Answer completeness score (practice estimate)</p>
+      </div>
+
+      <div class="mt-8">
+        <h3 class="font-bold text-lg mb-3">Your Feedback</h3>
+        <div id="feedback" class="space-y-4"></div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mt-8">
+        <button id="retry-btn" class="primary text-white rounded-xl px-5 py-3 font-semibold">
+          Try Again
+        </button>
+        <a href="index.html" class="border rounded-xl px-5 py-3">Back to Dashboard</a>
+      </div>
+      <p class="text-xs text-slate-400 mt-5">
+        This initial version uses local practice questions and a basic completeness estimate.
+        It does not yet use an AI model to evaluate technical correctness.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const questionBank = {
+      Technical: {
+        general: [
+          ["Explain the difference between HTML, CSS, and JavaScript.", "HTML structures a webpage, CSS styles it, and JavaScript adds interactivity."],
+          ["What is a REST API?", "A REST API allows applications to communicate over HTTP using methods such as GET, POST, PUT, and DELETE."],
+          ["What is the difference between frontend and backend development?", "Frontend handles the user interface; backend handles server logic, data, and APIs."],
+          ["Explain the difference between let, const, and var in JavaScript.", "They declare variables; let and const are block-scoped, while var is function-scoped."],
+          ["How would you debug a webpage that is not displaying correctly?", "Inspect browser console errors, network requests, HTML structure, CSS rules, and reproduce the issue."],
+          ["What is a database, and why is it used?", "A database stores and organizes information so applications can retrieve and update it."],
+          ["What is version control? Explain Git.", "Version control tracks code changes; Git helps developers create commits, branches, and collaborate."],
+          ["What is the purpose of testing software?", "Testing helps find defects and verify that software behaves as expected."],
+          ["Explain object-oriented programming.", "OOP organizes software around objects and concepts such as encapsulation, inheritance, abstraction, and polymorphism."],
+          ["How would you protect user passwords in a web application?", "Use a suitable password-hashing algorithm, secure authentication practices, HTTPS, and never store plaintext passwords."]
+        ],
+        "Frontend Developer": [
+          ["What is the difference between HTML, CSS, and JavaScript?", "HTML structures a webpage, CSS styles it, and JavaScript adds interactivity."],
+          ["What are React components?", "Components are reusable UI building blocks that can manage props and state."],
+          ["What is the Virtual DOM in React?", "It is a representation React uses to calculate and apply necessary UI updates."],
+          ["What is responsive web design?", "It adapts layouts to different screen sizes using flexible layouts, media queries, and responsive units."],
+          ["What is the difference between props and state in React?", "Props are inputs passed to a component; state is data managed by the component or its hooks."]
+        ],
+        "Python Developer": [
+          ["What are Python lists and tuples?", "Both store ordered items; lists are mutable, while tuples are immutable."],
+          ["What is a Python dictionary?", "A mapping that stores key-value pairs."],
+          ["What is exception handling in Python?", "try, except, else, and finally help handle errors safely."],
+          ["What is Flask used for?", "Flask is a lightweight Python framework for building web applications and APIs."],
+          ["What is the difference between a list and a set?", "Lists preserve order and allow duplicates; sets contain unique elements."]
+        ],
+        "Java Developer": [
+          ["What is the difference between a class and an object?", "A class defines a type; an object is an instance of that class."],
+          ["Explain the four principles of OOP.", "Encapsulation, abstraction, inheritance, and polymorphism."],
+          ["What is exception handling in Java?", "Java uses try, catch, finally, throw, and throws to manage exceptional situations."],
+          ["What is the difference between an interface and an abstract class?", "Interfaces define contracts; abstract classes can combine shared state and implementation with abstract methods."],
+          ["What is the Java Virtual Machine?", "The JVM executes Java bytecode and provides runtime services."]
+        ],
+        "Full Stack Developer": [
+          ["What does a full stack developer do?", "Works across frontend interfaces, backend services, APIs, and often database integration."],
+          ["What is a REST API?", "A REST API exposes resources through HTTP endpoints and standard methods."],
+          ["What is the difference between authentication and authorization?", "Authentication verifies identity; authorization determines permitted actions."],
+          ["What is SQL used for?", "SQL queries and manages data in relational databases."],
+          ["How does a browser communicate with a backend?", "It sends HTTP requests to server endpoints and processes the responses."]
+        ],
+        "AI/ML Engineer": [
+          ["What is the difference between AI, machine learning, and deep learning?", "AI is the broad field; ML learns from data; deep learning uses multilayer neural networks."],
+          ["What is overfitting?", "A model learns training data too closely and performs poorly on unseen data."],
+          ["Why do we split data into training and testing sets?", "To train the model and evaluate performance on unseen examples."],
+          ["What is a feature in machine learning?", "A feature is an input variable used by a model."],
+          ["What is a confusion matrix?", "A table comparing predicted and actual classes to summarize classification performance."]
+        ],
+        "Data Analyst": [
+          ["What is data cleaning?", "Finding and correcting missing, invalid, duplicated, or inconsistent data."],
+          ["What is the difference between mean and median?", "Mean is the arithmetic average; median is the middle value after sorting."],
+          ["What is SQL used for in data analysis?", "SQL filters, joins, aggregates, and retrieves data from relational databases."],
+          ["What is a KPI?", "A key performance indicator measures progress toward a defined goal."],
+          ["Why are charts used in data analysis?", "They reveal patterns, trends, comparisons, and outliers."]
+        ],
+        "Software Engineer": [
+          ["What is the software development life cycle?", "Typical stages include requirements, design, development, testing, deployment, and maintenance."],
+          ["What is an algorithm?", "A defined sequence of steps for solving a problem."],
+          ["What is unit testing?", "Testing an individual function or component in isolation."],
+          ["What is version control?", "A system for tracking changes and coordinating work on code."],
+          ["How would you investigate a production bug?", "Reproduce it, inspect logs and recent changes, isolate the cause, fix it, and add tests."]
+        ]
+      },
+      HR: [
+        ["Tell me about yourself.", "Give a concise introduction covering your education, relevant skills, projects, and career goals."],
+        ["Why should we hire you?", "Connect your relevant skills, willingness to learn, project experience, and strengths to the role."],
+        ["What are your strengths?", "Choose relevant strengths and support them with a real example."],
+        ["What is one weakness you are working on?", "Name a genuine manageable weakness and explain the steps you take to improve."],
+        ["Where do you see yourself in five years?", "Explain how you hope to develop expertise, take on responsibility, and contribute to the organization."],
+        ["Describe a challenge you faced and how you handled it.", "Explain the situation, your actions, the outcome, and what you learned."],
+        ["Why do you want this job?", "Relate the role to your interests, skills, learning goals, and the organization's work."],
+        ["How do you handle feedback?", "Listen carefully, clarify expectations, apply useful feedback, and follow up on progress."],
+        ["How do you work in a team?", "Describe how you communicate, coordinate tasks, and help resolve disagreements."],
+        ["Do you have any questions for us?", "Ask about team goals, onboarding, success measures, or learning opportunities."]
+      ],
+      Behavioral: [
+        ["Tell me about a time you solved a difficult problem.", "Use a specific example and explain the situation, actions, and outcome."],
+        ["Describe a time you worked with a team.", "Explain your role, how you coordinated, and what the team achieved."],
+        ["How do you prioritize multiple deadlines?", "Compare urgency and impact, break work into tasks, and communicate risks early."],
+        ["Describe a mistake you made and what you learned.", "Own the mistake, explain the correction, and show how you prevent a repeat."],
+        ["How do you learn a new technology quickly?", "Define a small goal, consult documentation, build a small example, and practice."],
+        ["Tell me about a time you received difficult feedback.", "Describe how you listened, acted on the feedback, and improved."],
+        ["How would you handle a disagreement with a teammate?", "Discuss the issue respectfully, listen to both sides, and work toward evidence-based agreement."],
+        ["What accomplishment are you proud of?", "Describe a meaningful achievement, your contribution, and the result."],
+        ["How do you respond when a project deadline changes?", "Reassess priorities, agree on scope, communicate impacts, and make a realistic plan."],
+        ["Describe a time you took initiative.", "Give an example where you noticed a need, acted, and achieved a useful outcome."]
+      ]
+    };
+
+    const $ = id => document.getElementById(id);
+    let questions = [];
+    let current = 0;
+    let answers = [];
+    let config = {};
+
+    function getQuestions() {
+      const type = config.type;
+      let bank;
+      if (type === "HR") bank = questionBank.HR;
+      else if (type === "Behavioral") bank = questionBank.Behavioral;
+      else bank = questionBank.Technical[config.role] || questionBank.Technical.general;
+
+      const result = [...bank];
+      while (result.length < Number(config.count)) {
+        const extra = questionBank.Technical.general;
+        result.push(...extra.filter(q => !result.some(r => r[0] === q[0])));
+        if (result.length < Number(config.count) && extra.every(q => result.some(r => r[0] === q[0]))) break;
+      }
+      return result.slice(0, Number(config.count));
+    }
+
+    $("setup-form").addEventListener("submit", event => {
+      event.preventDefault();
+      config = {
+        role: $("role").value,
+        type: document.querySelector('input[name="type"]:checked').value,
+        difficulty: $("difficulty").value,
+        count: $("count").value
+      };
+      questions = getQuestions();
+      current = 0;
+      answers = [];
+      $("setup").classList.add("hidden");
+      $("results").classList.add("hidden");
+      $("interview").classList.remove("hidden");
+      $("role-label").textContent = config.role + " • " + config.type + " • " + config.difficulty;
+      showQuestion();
+    });
+
+    function showQuestion() {
+      $("progress").textContent = `Question ${current + 1} of ${questions.length}`;
+      $("progress-bar").style.width = `${((current + 1) / questions.length) * 100}%`;
+      $("question").textContent = questions[current][0];
+      $("answer").value = answers[current] || "";
+      $("answer-error").classList.add("hidden");
+      $("next-btn").textContent = current === questions.length - 1 ? "Finish Interview ✓" : "Next Question →";
+    }
+
+    $("next-btn").addEventListener("click", () => {
+      const answer = $("answer").value.trim();
+      if (!answer) {
+        $("answer-error").classList.remove("hidden");
+        $("answer").focus();
+        return;
+      }
+      answers[current] = answer;
+      if (current < questions.length - 1) {
+        current++;
+        showQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    $("exit-btn").addEventListener("click", () => {
+      if (confirm("Exit this interview? Your current answers will be lost.")) {
+        $("interview").classList.add("hidden");
+        $("setup").classList.remove("hidden");
+      }
+    });
+
+    function showResults() {
+      $("interview").classList.add("hidden");
+      $("results").classList.remove("hidden");
+
+      const totalWords = answers.reduce((sum, answer) => sum + answer.split(/\s+/).filter(Boolean).length, 0);
+      const answered = answers.filter(answer => answer && answer.trim()).length;
+      const avgWords = answered ? totalWords / answered : 0;
+      const score = Math.min(100, Math.round((answered / questions.length) * 60 + Math.min(avgWords / 40, 1) * 40));
+      $("score").textContent = score + "%";
+
+      const feedback = $("feedback");
+      feedback.replaceChildren();
+
+      const summary = document.createElement("div");
+      summary.className = "rounded-xl bg-indigo-50 p-4";
+      summary.innerHTML = `<p class="font-semibold">Practice summary</p><p class="text-sm mt-2">${answered} of ${questions.length} questions answered. Your responses averaged ${Math.round(avgWords)} words.</p>`;
+      feedback.appendChild(summary);
+
+      questions.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "border rounded-xl p-4";
+        const heading = document.createElement("p");
+        heading.className = "font-semibold";
+        heading.textContent = `${index + 1}. ${item[0]}`;
+        const yourAnswer = document.createElement("p");
+        yourAnswer.className = "text-sm text-slate-600 mt-3 whitespace-pre-wrap";
+        yourAnswer.textContent = "Your answer: " + (answers[index] || "No answer");
+        const sampleLabel = document.createElement("p");
+        sampleLabel.className = "text-sm font-semibold text-indigo-700 mt-4";
+        sampleLabel.textContent = "Sample answer guidance";
+        const sample = document.createElement("p");
+        sample.className = "text-sm text-slate-600 mt-1";
+        sample.textContent = item[1];
+        card.append(heading, yourAnswer, sampleLabel, sample);
+        feedback.appendChild(card);
+      });
+
+      const history = JSON.parse(localStorage.getItem("campusPulseInterviewHistory") || "[]");
+      history.unshift({
+        role: config.role,
+        type: config.type,
+        difficulty: config.difficulty,
+        date: new Date().toISOString(),
+        score,
+        total: questions.length
+      });
+      localStorage.setItem("campusPulseInterviewHistory", JSON.stringify(history.slice(0, 20)));
+    }
+
+    $("retry-btn").addEventListener("click", () => {
+      $("results").classList.add("hidden");
+      $("setup").classList.remove("hidden");
+    });
+  </script>
+</body>
+</html>

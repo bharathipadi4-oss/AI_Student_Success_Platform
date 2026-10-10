@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Campus Pulse AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+  <header class="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+    <a href="index.html" class="text-xl font-bold text-blue-400">
+      Campus Pulse AI
+    </a>
+    <a href="index.html"
+       class="rounded-lg bg-slate-800 px-4 py-2 text-sm hover:bg-slate-700">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="mx-auto max-w-4xl px-4 py-10">
+
+    <div class="mb-8">
+      <p class="text-sm font-semibold uppercase tracking-widest text-blue-400">
+        Student Account
+      </p>
+      <h1 class="mt-2 text-3xl font-bold">My Profile</h1>
+      <p class="mt-2 text-slate-400">
+        View and manage your student information.
+      </p>
+    </div>
+
+    <section class="rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
+
+      <div class="flex flex-col items-center gap-5 border-b border-slate-800 pb-8 sm:flex-row">
+        <div id="avatar"
+          class="flex h-24 w-24 items-center justify-center rounded-full bg-blue-600 text-4xl font-bold">
+          U
+        </div>
+
+        <div class="flex-1 text-center sm:text-left">
+          <h2 id="student-name" class="text-2xl font-bold">Student</h2>
+          <p id="student-email" class="mt-1 text-slate-400"></p>
+          <span class="mt-3 inline-block rounded-full bg-blue-950 px-3 py-1 text-xs text-blue-300">
+            Campus Pulse AI Student
+          </span>
+        </div>
+
+        <button id="edit-button"
+          class="rounded-lg bg-blue-600 px-5 py-2 font-semibold hover:bg-blue-700">
+          Edit Profile
+        </button>
+      </div>
+
+      <form id="profile-form" class="mt-8">
+        <h3 class="mb-5 text-lg font-semibold">Personal & Academic Details</h3>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+
+          <div>
+            <label for="full-name" class="mb-2 block text-sm text-slate-400">Full Name</label>
+            <input id="full-name" type="text" required
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500">
+          </div>
+
+          <div>
+            <label for="email" class="mb-2 block text-sm text-slate-400">Email Address</label>
+            <input id="email" type="email" readonly
+              class="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-slate-400">
+          </div>
+
+          <div>
+            <label for="college" class="mb-2 block text-sm text-slate-400">College Name</label>
+            <input id="college" type="text" placeholder="Enter your college name"
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500">
+          </div>
+
+          <div>
+            <label for="course" class="mb-2 block text-sm text-slate-400">Course / Branch</label>
+            <input id="course" type="text" placeholder="e.g. B.Tech AI & DS"
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500">
+          </div>
+
+          <div>
+            <label for="year" class="mb-2 block text-sm text-slate-400">Current Year</label>
+            <select id="year"
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500">
+              <option value="">Select year</option>
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="cgpa" class="mb-2 block text-sm text-slate-400">CGPA</label>
+            <input id="cgpa" type="number" min="0" max="10" step="0.01" placeholder="e.g. 7.54"
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500">
+          </div>
+
+          <div class="sm:col-span-2">
+            <label for="skills" class="mb-2 block text-sm text-slate-400">Skills</label>
+            <textarea id="skills" rows="3" placeholder="e.g. HTML, CSS, JavaScript, Python"
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"></textarea>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label for="projects" class="mb-2 block text-sm text-slate-400">Projects</label>
+            <textarea id="projects" rows="3" placeholder="Enter your projects"
+              class="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"></textarea>
+          </div>
+
+        </div>
+
+        <div id="message" class="mt-4 text-sm" aria-live="polite"></div>
+
+        <div id="form-actions" class="mt-6 hidden gap-3">
+          <button type="submit"
+            class="rounded-lg bg-blue-600 px-5 py-3 font-semibold hover:bg-blue-700">
+            Save Changes
+          </button>
+          <button id="cancel-button" type="button"
+            class="rounded-lg bg-slate-800 px-5 py-3 hover:bg-slate-700">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <div class="mt-6 flex justify-end">
+      <button id="logout-button"
+        class="rounded-lg border border-red-900 px-5 py-3 text-red-400 hover:bg-red-950">
+        Logout
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    const email = localStorage.getItem("userEmail");
+
+    if (!email) {
+      window.location.replace("login.html");
+    } else {
+      const name = localStorage.getItem("userName") || email.split("@")[0];
+
+      document.getElementById("student-name").textContent = name;
+      document.getElementById("student-email").textContent = email;
+      document.getElementById("avatar").textContent =
+        name.charAt(0).toUpperCase();
+      document.getElementById("full-name").value = name;
+      document.getElementById("email").value = email;
+
+      const fields = ["college", "course", "year", "cgpa", "skills", "projects"];
+
+      fields.forEach(function (field) {
+        document.getElementById(field).value =
+          localStorage.getItem("profile_" + field) || "";
+      });
+
+      const form = document.getElementById("profile-form");
+      const inputs = form.querySelectorAll("input:not([readonly]), select, textarea");
+      const actions = document.getElementById("form-actions");
+      const editButton = document.getElementById("edit-button");
+      const message = document.getElementById("message");
+
+      function setEditing(editing) {
+        inputs.forEach(function (input) {
+          input.disabled = !editing;
+          input.classList.toggle("opacity-60", !editing);
+        });
+        actions.classList.toggle("hidden", !editing);
+        actions.classList.toggle("flex", editing);
+        editButton.classList.toggle("hidden", editing);
+      }
+
+      setEditing(false);
+
+      editButton.addEventListener("click", function () {
+        setEditing(true);
+        message.textContent = "";
+      });
+
+      document.getElementById("cancel-button").addEventListener("click", function () {
+        window.location.reload();
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const newName = document.getElementById("full-name").value.trim();
+
+        if (!newName) {
+          message.textContent = "Please enter your name.";
+          return;
+        }
+
+        localStorage.setItem("userName", newName);
+
+        fields.forEach(function (field) {
+          localStorage.setItem(
+            "profile_" + field,
+            document.getElementById(field).value.trim()
+          );
+        });
+
+        document.getElementById("student-name").textContent = newName;
+        document.getElementById("avatar").textContent =
+          newName.charAt(0).toUpperCase();
+
+        message.textContent = "Profile updated successfully!";
+        message.className = "mt-4 text-sm text-green-400";
+        setEditing(false);
+      });
+
+      document.getElementById("logout-button").addEventListener("click", function () {
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userName");
+        window.location.href = "login.html";
+      });
+    }
+  </script>
+
+</body>
+</html>
