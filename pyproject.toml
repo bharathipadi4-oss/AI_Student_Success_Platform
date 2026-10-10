@@ -1,2 +1,9 @@
+
+[project]
+name = "campus-pulse-ai"
+version = "0.1.0"
+description = "AI-powered student success platform"
+requires-python = ">=3.10"
+
 [tool.vercel]
 entrypoint = "server.server:app"
